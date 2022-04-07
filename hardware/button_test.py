@@ -54,7 +54,7 @@ reset=0
 sleepCount=0
 
 #show sleep
-displayState(state)
+showFace(state)
 
 while True: 
 
