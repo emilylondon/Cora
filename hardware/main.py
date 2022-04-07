@@ -48,8 +48,8 @@ def on_press(key):
 
 if __name__ == '__main__':
     #setup the keyboard event listener
-    # lis = keyboard.Listener(on_press=on_press)
-    # lis.start() # start to listen on a separate thread
+    lis = keyboard.Listener(on_press=on_press)
+    lis.start() # start to listen on a separate thread
 
     mainImage= Image.open("coraMain.png")
     showPIL(mainImage)
