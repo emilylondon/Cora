@@ -13,20 +13,6 @@ leftButton = Button(20)
 rightButton = Button(16)
 selectButton = Button(21)
 
-#initial images 
-window = tkinter.Tk()
-#set attributes 
-#window.attributes('-fullscreen', True)
-window.title("Cora")
-height = window.winfo_screenheight()
-
-mainImage= Image.open("coraMain.png")
-display = ImageTk.PhotoImage(mainImage)
-label1 = tkinter.Label(image=display)
-
-label1.image = display
-label1.place(x=0,y=0)
-
 #prolonged button press 
 
 def showPIL(imageName):
@@ -39,8 +25,28 @@ def showPIL(imageName):
     label1.place(x=0,y=0)
   
 
+def clearWindow():
+        # destroy all widgets from frame
+    for widget in frame.winfo_children():
+       widget.destroy()
+    
+    # this will clear frame and frame will be empty
+    # if you want to hide the empty panel then
+    frame.pack_forget()
+
 
 if __name__ == '__main__':
+    window = tkinter.Tk()
+    #set attributes 
+    #window.attributes('-fullscreen', True)
+    window.title("Cora")
+    height = window.winfo_screenheight()
+
+    frame = tkinter.Frame(window)
+    frame.pack(side="top", expand=True, fill="both")    
+
+    mainImage= Image.open("coraMain.png")
+    showPIL(mainImage)
 
     window.update()
 
