@@ -25,7 +25,7 @@ def showPIL(imageName):
     label1.place(x=0,y=0)
   
 
-def clearWindow():
+def clearWindow(frame):
         # destroy all widgets from frame
     for widget in frame.winfo_children():
        widget.destroy()
@@ -58,7 +58,7 @@ if __name__ == '__main__':
                 loc-=1
             print("left!")
             mainImage = Image.open(feelArr[loc])
-            clearWindow()
+            clearWindow(frame)
             showPIL(mainImage)
         if selectButton.is_pressed: 
             print("select!")
@@ -69,6 +69,6 @@ if __name__ == '__main__':
                 loc+=1
             print("right!")
             mainImage = Image.open(feelArr[loc])
-            clearWindow()
+            clearWindow(frame)
             showPIL(mainImage)
         window.update()
