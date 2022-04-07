@@ -13,9 +13,19 @@ leftButton = Button(20)
 rightButton = Button(16)
 selectButton = Button(21)
 
+
 #prolonged button press 
 
 def showPIL(imageName):
+
+    #set attributes 
+    #window.attributes('-fullscreen', True)
+    window.title("Cora")
+
+    width = window.winfo_screenwidth()
+    height = window.winfo_screenheight()
+
+
     #display image
     display = ImageTk.PhotoImage(imageName)
     
