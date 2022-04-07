@@ -11,11 +11,12 @@ def showPIL(imageName):
     window = tkinter.Tk()
 
     #set attributes 
-    window.attributes('-fullscreen', True)
+    #window.attributes('-fullscreen', True)
     window.title("Cora")
 
     width = window.winfo_screenwidth()
     height = window.winfo_screenheight()
+
     #display image
     display = ImageTk.PhotoImage(imageName)
     
@@ -47,8 +48,8 @@ def on_press(key):
 
 if __name__ == '__main__':
     #setup the keyboard event listener
-    lis = keyboard.Listener(on_press=on_press)
-    lis.start() # start to listen on a separate thread
+    # lis = keyboard.Listener(on_press=on_press)
+    # lis.start() # start to listen on a separate thread
 
     mainImage= Image.open("coraMain.png")
     showPIL(mainImage)
