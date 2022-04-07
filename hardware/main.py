@@ -14,6 +14,12 @@ rightButton = Button(16)
 selectButton = Button(21)
 
 #initial images 
+window = tkinter.Tk()
+#set attributes 
+#window.attributes('-fullscreen', True)
+window.title("Cora")
+height = window.winfo_screenheight()
+
 mainImage= Image.open("coraMain.png")
 display = ImageTk.PhotoImage(mainImage)
 label1 = tkinter.Label(image=display)
@@ -35,11 +41,6 @@ def showPIL(imageName):
 
 
 if __name__ == '__main__':
-    window = tkinter.Tk()
-    #set attributes 
-    #window.attributes('-fullscreen', True)
-    window.title("Cora")
-    height = window.winfo_screenheight()
 
     window.update()
 
