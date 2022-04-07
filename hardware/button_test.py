@@ -3,7 +3,7 @@ from gpiozero import Button
 def displayState(state):
     filename=feelArr[state]
     #display filename on screen
-:
+
 def doState(state):
     if state==0:
         playHappy()
