@@ -34,7 +34,7 @@ def clearWindow(frame):
     # if you want to hide the empty panel then
     frame.pack_forget()
     frame.destroy()
-    frame = tkinter.Frame(window)
+    #frame = tkinter.Frame(window)
 
 
 if __name__ == '__main__':
