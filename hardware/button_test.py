@@ -1,4 +1,5 @@
 from gpiozero import Button 
+import time 
 
 #GPIO button stuff/hardware 
 leftButton = Button(20)
