@@ -8,7 +8,7 @@ import time
 feelArr = ['happy.png', 'sad.jpg', 'angry.png', 'excited.png']
 loc = 0
 
-#button declarations 
+#Button declarations 
 leftButton = Button(20)
 rightButton = Button(16)
 selectButton = Button(21)
@@ -16,15 +16,23 @@ selectButton = Button(21)
 
 #prolonged button press 
 
-def showPIL(imageName):
+#first instanse of image show, returns label to destroy latter
+def initialShowPIL(imageName):
+    display = ImageTk.PhotoImage(imageName)
+    
+    label1 = tkinter.Label(image=display)
+    label1.image = display
+
+    label1.place(x=0,y=0)
+    return label1
+
+#subsequent image shows, also returns label to destroy 
+def showPIL(oldImage, imageName):
 
     #set attributes 
     #window.attributes('-fullscreen', True)
+    oldImage.destroy()
     window.title("Cora")
-
-    width = window.winfo_screenwidth()
-    height = window.winfo_screenheight()
-
 
     #display image
     display = ImageTk.PhotoImage(imageName)
@@ -33,17 +41,7 @@ def showPIL(imageName):
     label1.image = display
 
     label1.place(x=0,y=0)
-
-def clearWindow(frame):
-    #  destroy all widgets from frame
-    for widget in frame.winfo_children():
-      widget.destroy()
-    
-    # this will clear frame and frame will be empty
-    # if you want to hide the empty panel then
-    # frame.pack_forget()
-    # frame.destroy()
-    # frame = tkinter.Frame(window)
+    return label1
 
 if __name__ == '__main__':
     window = tkinter.Tk()
@@ -52,39 +50,31 @@ if __name__ == '__main__':
     window.title("Cora")
     height = window.winfo_screenheight()
 
-
     mainImage= Image.open("coraMain.png")
-    showPIL(mainImage)
+    oldImage=initialShowPIL(mainImage)
 
     window.update()
 
     while True: 
         frame = tkinter.Frame(window) 
-        if leftButton.is_pressed:
+        if count==5: #leftButton.is_pressed:
+            count=0
             if (loc == 0):
                 loc=3
             else: 
                 loc-=1
             print("left!")
             mainImage = Image.open(feelArr[loc])
-            #frame.pack_forget()
-            frame=tkinter.Frame(window)
-            clearWindow(frame)
-
-            showPIL(mainImage)
+            oldImage=showPIL(oldImage, mainImage)
         if selectButton.is_pressed: 
             print("select!")
         if rightButton.is_pressed:
             if (loc == 3):
                 loc = 0
             else:
-                loc+=1
+               loc+=1
             print("right!")
             mainImage = Image.open(feelArr[loc])
-            frame=tkinter.Frame(window)
-            clearWindow(frame)
-            # frame.pack_forget()
-            # frame=tkinter.Frame(window)
-            showPIL(mainImage)
+            oldImage=showPIL(mainImage)
         time.sleep(1)
         window.update()
