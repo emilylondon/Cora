@@ -1,5 +1,9 @@
 from gpiozero import Button 
 
+def displayState(state){
+    filename=feelArr[state]
+    #display filename on screen
+}
 def doState(state){
     if state==0:
         playHappy()
@@ -12,15 +16,19 @@ def doState(state){
 }
 def playHappy(){
     print("playing happy!")
+    #do happy action
 }
 def playSad(){
     print("playing sad!")
+    #do sad action
 }
 def playWorried(){
     print("playing worried!")
+    #do worried action
 }
 def playMad(){
     print("playing mad!")
+    #do mad action
 }
 
 #GPIO button stuff/hardware 
@@ -68,6 +76,7 @@ while True:
             doState(state)
     
     if reset==300:
+        print("going back to sleep!")
         state=0
         displayState(state)
     reset+=1
