@@ -23,19 +23,17 @@ def showPIL(imageName):
     label1.image = display
 
     label1.place(x=0,y=0)
-  
 
-#def clearWindow(frame):
-        # destroy all widgets from frame
-    #for widget in frame.winfo_children():
-    #   widget.destroy()
+def clearWindow(frame):
+    #  destroy all widgets from frame
+    for widget in frame.winfo_children():
+      widget.destroy()
     
     # this will clear frame and frame will be empty
     # if you want to hide the empty panel then
-    #frame.pack_forget()
-    #frame.destroy()
-    #frame = tkinter.Frame(window)
-
+    # frame.pack_forget()
+    # frame.destroy()
+    # frame = tkinter.Frame(window)
 
 if __name__ == '__main__':
     window = tkinter.Tk()
@@ -59,8 +57,10 @@ if __name__ == '__main__':
                 loc-=1
             print("left!")
             mainImage = Image.open(feelArr[loc])
-            frame.pack_forget()
+            #frame.pack_forget()
             frame=tkinter.Frame(window)
+            clearWindow(frame)
+
             showPIL(mainImage)
         if selectButton.is_pressed: 
             print("select!")
@@ -71,8 +71,10 @@ if __name__ == '__main__':
                 loc+=1
             print("right!")
             mainImage = Image.open(feelArr[loc])
-            frame.pack_forget()
             frame=tkinter.Frame(window)
+            clearWindow(frame)
+            # frame.pack_forget()
+            # frame=tkinter.Frame(window)
             showPIL(mainImage)
         time.sleep(1)
         window.update()
