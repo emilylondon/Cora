@@ -1,7 +1,8 @@
 from gpiozero import Button 
 import time
-def displayState(state):
+def showFace(state):
     filename=feelArr[state]
+    print("showing"+str(filename))
     #display filename on screen
 
 def doState(state):
@@ -59,12 +60,12 @@ while True:
 
     if leftButton.is_pressed:
         state=leftMap[state]
-        showState(state)
+        showFace(state)
         print("left! to "+str(stateMap[state]))
 
     elif rightButton.is_pressed: 
         state=rightMap[state]
-        showState(state)
+        showFace(state)
         print("right! to "+str(stateMap[state]))
 
     elif selectButton.is_pressed:
@@ -78,7 +79,7 @@ while True:
     if reset==300:
         print("going back to sleep!")
         state=0
-        displayState(state)
+        showFace(state)
     reset+=1
 
     time.sleep(0.2)
