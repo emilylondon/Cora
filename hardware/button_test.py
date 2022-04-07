@@ -1,10 +1,10 @@
 from gpiozero import Button 
 
-def displayState(state){
+def displayState(state):
     filename=feelArr[state]
     #display filename on screen
-}
-def doState(state){
+:
+def doState(state):
     if state==0:
         playHappy()
     elif state==1:
@@ -13,23 +13,23 @@ def doState(state){
         playWorried()
     else:
         playMad()
-}
-def playHappy(){
+
+def playHappy():
     print("playing happy!")
     #do happy action
-}
-def playSad(){
+
+def playSad():
     print("playing sad!")
     #do sad action
-}
-def playWorried(){
+
+def playWorried():
     print("playing worried!")
     #do worried action
-}
-def playMad(){
+
+def playMad():
     print("playing mad!")
     #do mad action
-}
+
 
 #GPIO button stuff/hardware 
 leftButton = Button(20)
