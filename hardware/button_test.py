@@ -13,3 +13,4 @@ while True:
         print("select!")
     if rightButton.is_pressed:
         print("right!")
+    time.sleep(1)
