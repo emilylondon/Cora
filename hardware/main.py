@@ -59,7 +59,7 @@ if __name__ == '__main__':
                 loc-=1
             print("left!")
             mainImage = Image.open(feelArr[loc])
-            frame.destroy()
+            frame.pack_forget()
             frame=tkinter.Frame(window)
             showPIL(mainImage)
         if selectButton.is_pressed: 
@@ -71,7 +71,7 @@ if __name__ == '__main__':
                 loc+=1
             print("right!")
             mainImage = Image.open(feelArr[loc])
-            frame.destroy()
+            frame.pack_forget()
             frame=tkinter.Frame(window)
             showPIL(mainImage)
         time.sleep(1)
