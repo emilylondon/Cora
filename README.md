@@ -1,7 +1,7 @@
 # Set up Instructions: 
 
 ## To run a virtual environment 
-`pytohn -m venv test`
+`python -m venv test`
 `source test/bin/activate`
 
 ## Install required libraries 
