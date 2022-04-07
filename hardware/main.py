@@ -71,4 +71,5 @@ if __name__ == '__main__':
             mainImage = Image.open(feelArr[loc])
             clearWindow(frame)
             showPIL(mainImage)
+        time.sleep(1)
         window.update()
