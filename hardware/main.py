@@ -46,7 +46,8 @@ if __name__ == '__main__':
             print("left!")
         if selectButton.is_pressed: 
             print("select!")
-            showPIL(feelArr[loc])
+            mainImage = Image.open(feelArr[loc])
+            showPIL(mainImage)
         if rightButton.is_pressed:
             if (loc == 3):
                 loc = 0
