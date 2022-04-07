@@ -36,11 +36,13 @@ def on_press(key):
             loc = loc + 1
         else:
             loc = 0 
-    if k == 'a':
+    elif k == 'a':
         if loc!=0:
             loc = loc - 1
         else: 
             loc = 3
+    else:
+        print("no in")
     loc = 0
     imageDisp = Image.open(feelArr[loc])
     showPIL(imageDisp)
