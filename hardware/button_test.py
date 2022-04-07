@@ -1,5 +1,5 @@
 from gpiozero import Button 
-
+import time
 def displayState(state):
     filename=feelArr[state]
     #display filename on screen
@@ -82,4 +82,3 @@ while True:
     reset+=1
 
     time.sleep(0.2)
-
