@@ -17,6 +17,7 @@ selectButton = Button(21)
 
 def showPIL(imageName):
     #display image
+    label1.destroy()
     display = ImageTk.PhotoImage(imageName)
     
     label1 = tkinter.Label(image=display)
