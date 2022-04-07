@@ -1,4 +1,5 @@
 from gpiozero import Button 
+
 import time
 def showFace(state):
     filename=feelArr[state]
@@ -30,6 +31,7 @@ def playWorried():
 def playMad():
     print("playing mad!")
     #do mad action
+
 
 
 #GPIO button stuff/hardware 
