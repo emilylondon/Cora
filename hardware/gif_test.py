@@ -71,7 +71,7 @@ def iterate_through(loc):
     cnt=0
     while True:
         if leftButton.is_pressed:
-            time.sleep(.05)
+            time.sleep(.005)
             if (loc==0):
                 loc=3
             else:
@@ -80,7 +80,7 @@ def iterate_through(loc):
             while leftButton.is_pressed:
                 pass
         if rightButton.is_pressed:
-            time.sleep(.05)
+            time.sleep(.005)
             if (loc==3):
                 loc=0
             else:
@@ -89,13 +89,15 @@ def iterate_through(loc):
             while rightButton.is_pressed:
                 pass
         if selectButton.is_pressed:
-            time.sleep(.05)
+            time.sleep(.005)
             while selectButton.is_pressed:
+                print(cnt)
                 if cnt==25
                     q.put(imgPath + 'sleeping.gif')
-                    cnt+=1          
+                    cnt+=1 
+                time.sleep(0.02)         
             q.put(imgPath + actionArr[loc])
-        time.sleep(0.2)
+        time.sleep(0.02)
 
 #demo :
 if __name__ == '__main__':
