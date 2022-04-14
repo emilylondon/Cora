@@ -94,6 +94,7 @@ def iterate_through(loc):
                 print(cnt)
                 if cnt==25:
                     q.put(imgPath + 'sleeping.gif')
+                    cnt=0
                 cnt+=1 
                 time.sleep(0.02)         
             q.put(imgPath + actionArr[loc])
