@@ -3,6 +3,7 @@ from PIL import Image, ImageTk
 from itertools import count, cycle
 import time 
 import queue 
+from gpiozero import Button 
 import threading
 
 imgPath = "images/"
@@ -19,6 +20,10 @@ loc = 0
 cnt =0
 q = queue.Queue()
 
+#GPIO button stuff/hardware 
+leftButton = Button(16)
+rightButton = Button(21)
+selectButton = Button(20)
 
  
 class ImageLabel(tk.Label):
@@ -63,17 +68,23 @@ class ImageLabel(tk.Label):
  #threads rip 
 def iterate_through(loc):
     loc=0
-    cnt=0
     while True:
-        print(cnt)
-        if cnt==5: #leftButton.is_pressed:
-            cnt=0
-            if (loc == 0):
+        if leftButton.is_pressed:
+            if (loc==0):
                 loc=3
-            else: 
+            else:
                 loc-=1
             q.put(imgPath + feelArr[loc])
-        cnt+=1
+            while leftButton.is_pressed
+        if rightButton.is_pressed:
+            if (loc==3):
+                loc=0
+            else:
+                loc+=1
+            q.put(imgPath + feelArr[loc])
+            while rightButton.is_pressed
+        if selectButton.is_pressed:
+            q.put(imgPath + actionArr[loc])
         time.sleep(1)
 
 #demo :
