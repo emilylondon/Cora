@@ -108,7 +108,7 @@ def iterate_through(loc):
                 time.sleep(0.02)       
             
             q.put(imgPath + actionArr[loc])
-            q.put(soundPath + actionArrAud[loc])
+            s.put(soundPath + actionArrAud[loc ])
         time.sleep(0.02)
 
 def play_audio():
