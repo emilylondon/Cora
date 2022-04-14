@@ -92,7 +92,7 @@ def iterate_through(loc):
             time.sleep(.005)
             while selectButton.is_pressed:
                 print(cnt)
-                if cnt==25:
+                if cnt==100:
                     loc=0
                     cnt=0
                 cnt+=1 
