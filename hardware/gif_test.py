@@ -5,13 +5,20 @@ import time
 import queue 
 import threading
 
-path = "images/"
+imgPath = "images/"
+soundPath = "sounds/"
+
 feelArr = ['happy.gif', 'sad.gif', 'mad.gif', 'worried.gif']
+feelArrAud = ['happy.mp3', 'sad.mp3', 'mad.mp3', 'worried.mp3']
 actionArr=['dance.gif', 'affirmations.gif', 'wiggle.gif', 'breathe.gif']
-imageName=path+'sleeping.gif'
+actionArrAud=['dance.mp3', 'affirmations.mp3', 'wiggle.mp3', 'breathe.mp3']
+
+imageName=imgPath+'sleeping.gif'
+soundName= soundPath + 'sleeping.mp3'
 loc = 0
 cnt =0
 q = queue.Queue()
+
 
  
 class ImageLabel(tk.Label):
@@ -65,7 +72,7 @@ def iterate_through(loc):
                 loc=3
             else: 
                 loc-=1
-            q.put(path + feelArr[loc])
+            q.put(imgPath + feelArr[loc])
         cnt+=1
         time.sleep(1)
 
@@ -73,7 +80,7 @@ def iterate_through(loc):
 if __name__ == '__main__':
     root = tk.Tk()
     root.title('Cora')
-    root.attributes('-fullscreen', True)
+    #root.attributes('-fullscreen', True)
     itTrd = threading.Thread(target=iterate_through, args=(loc,))
     lbl = ImageLabel(root)
     lbl.pack()
@@ -81,13 +88,9 @@ if __name__ == '__main__':
 
     itTrd.start()
     while True:
-        print("Hey")
         if (q.empty()!=True):
             imageName=q.get()
             lbl.unload()
             lbl = ImageLabel(root)
             lbl.load(imageName)
-        
-        print("please")
-        print(imageName)
         root.update()

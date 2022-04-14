@@ -35,9 +35,9 @@ def playMad():
 
 
 #GPIO button stuff/hardware 
-leftButton = Button(20)
-rightButton = Button(16)
-selectButton = Button(21)
+leftButton = Button(16)
+rightButton = Button(21)
+selectButton = Button(20)
 
 """
 0 - happy
