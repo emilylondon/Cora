@@ -14,7 +14,7 @@ feelArrAud = ['happy.mp3', 'sad.mp3', 'mad.mp3', 'worried.mp3']
 actionArr=['dance.gif', 'affirmations.gif', 'wiggle.gif', 'breathe.gif']
 actionArrAud=['dance.mp3', 'affirmations.mp3', 'wiggle.mp3', 'breathe.mp3']
 
-imageName=imgPath+'sleeping.gif'
+imageName=imgPath+feelArr[0]
 soundName= soundPath + 'sleeping.mp3'
 loc = 0
 cnt =0
