@@ -92,7 +92,7 @@ def iterate_through(loc):
             time.sleep(.005)
             while selectButton.is_pressed:
                 print(cnt)
-                if cnt==25
+                if cnt==25:
                     q.put(imgPath + 'sleeping.gif')
                     cnt+=1 
                 time.sleep(0.02)         
