@@ -69,6 +69,7 @@ class ImageLabel(tk.Label):
 def iterate_through(loc):
     loc=0
     cnt=0
+    f=0
     while True:
         if leftButton.is_pressed:
             time.sleep(.005)
@@ -90,14 +91,17 @@ def iterate_through(loc):
                 pass
         if selectButton.is_pressed:
             time.sleep(.005)
+            f=0
             while selectButton.is_pressed:
                 print(cnt)
                 if cnt==25:
+                    f=1
                     q.put(imgPath + 'sleeping.gif')
                     cnt=0
                 cnt+=1 
                 time.sleep(0.02)         
-            q.put(imgPath + actionArr[loc])
+            if f==0:
+                q.put(imgPath + actionArr[loc])
         time.sleep(0.02)
 
 #demo :
