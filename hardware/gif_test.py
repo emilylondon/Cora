@@ -75,14 +75,14 @@ def iterate_through(loc):
             else:
                 loc-=1
             q.put(imgPath + feelArr[loc])
-            while leftButton.is_pressed
+            while leftButton.is_pressed:
         if rightButton.is_pressed:
             if (loc==3):
                 loc=0
             else:
                 loc+=1
             q.put(imgPath + feelArr[loc])
-            while rightButton.is_pressed
+            while rightButton.is_pressed:
         if selectButton.is_pressed:
             q.put(imgPath + actionArr[loc])
         time.sleep(1)
