@@ -9,7 +9,7 @@ import threading
 imgPath = "images/"
 soundPath = "sounds/"
 
-feelArr = ['happy.gif', 'sad.gif', 'mad.gif', 'worried.gif']
+feelArr = ['sleeping.gif','happy.gif', 'sad.gif', 'mad.gif', 'worried.gif']
 feelArrAud = ['happy.mp3', 'sad.mp3', 'mad.mp3', 'worried.mp3']
 actionArr=['dance.gif', 'affirmations.gif', 'wiggle.gif', 'breathe.gif']
 actionArrAud=['dance.mp3', 'affirmations.mp3', 'wiggle.mp3', 'breathe.mp3']
@@ -69,12 +69,11 @@ class ImageLabel(tk.Label):
 def iterate_through(loc):
     loc=0
     cnt=0
-    f=0
     while True:
         if leftButton.is_pressed:
             time.sleep(.005)
-            if (loc==0):
-                loc=3
+            if (loc==1):
+                loc=4
             else:
                 loc-=1
             q.put(imgPath + feelArr[loc])
@@ -82,8 +81,8 @@ def iterate_through(loc):
                 pass
         if rightButton.is_pressed:
             time.sleep(.005)
-            if (loc==3):
-                loc=0
+            if (loc==4):
+                loc=1
             else:
                 loc+=1
             q.put(imgPath + feelArr[loc])
@@ -91,17 +90,15 @@ def iterate_through(loc):
                 pass
         if selectButton.is_pressed:
             time.sleep(.005)
-            f=0
             while selectButton.is_pressed:
                 print(cnt)
                 if cnt==25:
-                    f=1
-                    q.put(imgPath + 'sleeping.gif')
+                    loc=0
                     cnt=0
                 cnt+=1 
-                time.sleep(0.02)         
-            if f==0:
-                q.put(imgPath + actionArr[loc])
+                time.sleep(0.02)       
+            
+            q.put(imgPath + actionArr[loc])
         time.sleep(0.02)
 
 #demo :
