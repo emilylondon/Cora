@@ -10,15 +10,16 @@ imgPath = "images/"
 soundPath = "sounds/"
 
 feelArr = ['sleeping.gif','happy.gif', 'sad.gif', 'mad.gif', 'worried.gif']
-feelArrAud = ['happy.mp3', 'sad.mp3', 'mad.mp3', 'worried.mp3']
+feelArrAud = ['intro.mp3', 'happy.mp3', 'sad.mp3', 'mad.mp3', 'worried.mp3']
 actionArr=['sleeping.gif','dance.gif', 'affirmations.gif', 'wiggle.gif', 'breathe.gif']
-actionArrAud=['dance.mp3', 'affirmations.mp3', 'wiggle.mp3', 'breathe.mp3']
+actionArrAud=['outro.mp3','dance.mp3', 'affirmations.mp3', 'wiggle.mp3', 'breathe.mp3']
 
 imageName=imgPath+feelArr[0]
 soundName= soundPath + 'sleeping.mp3'
 loc = 0
 cnt =0
 q = queue.Queue()
+s = queue.Queue()
 
 #GPIO button stuff/hardware 
 leftButton = Button(16)
@@ -69,9 +70,13 @@ class ImageLabel(tk.Label):
 def iterate_through(loc):
     loc=0
     cnt=0
+    flag=0
     while True:
         if leftButton.is_pressed:
             time.sleep(.005)
+            if flag == 0: 
+                s.put(soundPath + feelArrAud[0])
+                flag = 1
             if (loc==1):
                 loc=4
             else:
@@ -81,6 +86,9 @@ def iterate_through(loc):
                 pass
         if rightButton.is_pressed:
             time.sleep(.005)
+            if flag == 0: 
+                s.put(soundPath + feelArrAud[0])
+                flag = 1
             if (loc==4):
                 loc=1
             else:
@@ -95,23 +103,33 @@ def iterate_through(loc):
                 if cnt==100:
                     loc=0
                     cnt=0
+                    flag=0
                 cnt+=1 
                 time.sleep(0.02)       
             
             q.put(imgPath + actionArr[loc])
+            q.put(soundPath + actionArrAud[loc])
         time.sleep(0.02)
 
+def play_audio():
+    while True: 
+        if (s.empty()!=True):
+            audio = s.get()
+            print(audio)
+    
 #demo :
 if __name__ == '__main__':
     root = tk.Tk()
     root.title('Cora')
     #root.attributes('-fullscreen', True)
     itTrd = threading.Thread(target=iterate_through, args=(loc,))
+    audTrd = threading.Thread(target=play_audio)
     lbl = ImageLabel(root)
     lbl.pack()
     lbl.load(imageName)
 
     itTrd.start()
+    audTrd.start()
     while True:
         if (q.empty()!=True):
             imageName=q.get()
