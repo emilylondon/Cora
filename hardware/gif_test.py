@@ -11,7 +11,7 @@ soundPath = "sounds/"
 
 feelArr = ['sleeping.gif','happy.gif', 'sad.gif', 'mad.gif', 'worried.gif']
 feelArrAud = ['happy.mp3', 'sad.mp3', 'mad.mp3', 'worried.mp3']
-actionArr=['dance.gif', 'affirmations.gif', 'wiggle.gif', 'breathe.gif']
+actionArr=['sleeping.gif','dance.gif', 'affirmations.gif', 'wiggle.gif', 'breathe.gif']
 actionArrAud=['dance.mp3', 'affirmations.mp3', 'wiggle.mp3', 'breathe.mp3']
 
 imageName=imgPath+feelArr[0]
