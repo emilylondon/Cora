@@ -32,14 +32,21 @@ rightButton = Button(21)
 selectButton = Button(20)
 
 #GPIO LEDs 
-RED_PIN   = 16
-GREEN_PIN = 21
-BLUE_PIN  = 20
+RED_PIN   = 26
+GREEN_PIN = 19
+BLUE_PIN  = 13
 
 #Initial color values 
 RED=255
 GREEN = 0
 BLUE = 0 
+
+#loc color array 
+color=[[242, 141, 185]
+       [255, 255, 0  ],
+       [0  ,   0, 255],
+       [255,   0,   0],
+       [  0, 255,   0]]
 
 #Audio processing info 
 samplerate=44100
@@ -135,6 +142,15 @@ def iterate_through(loc):
     cnt=0
     flag=0
     global flg
+    global RED
+    global GREEN
+    global BLUE
+    RED=color[loc][0]
+    GREEN=color[loc][1]
+    BLUE=color[loc][2]
+    pi.set_PWM_dutycycle(RED_PIN, RED)
+    pi.set_PWM_dutycycle(GREEN_PIN, GREEN)
+    pi.set_PWM_dutycycle(BLUE_PIN, BLUE)
     while True:
         if leftButton.is_pressed:
             flg=0
@@ -223,6 +239,7 @@ if __name__ == '__main__':
 
     itTrd.start()
     audTrd.start()
+
     while True:
         if (q.empty()!=True):
             imageName=q.get()
