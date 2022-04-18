@@ -97,7 +97,7 @@ class ImageLabel(tk.Label):
     def load(self, im):
         if isinstance(im, str):
             im = Image.open(im)
-            im = im.zoom(2, 2)    
+            #im = im.zoom(2, 2)    
         frames = []
  
         try:
