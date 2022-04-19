@@ -145,6 +145,9 @@ def iterate_through(loc):
     RED=color[loc][0]
     GREEN=color[loc][1]
     BLUE=color[loc][2]
+    print(RED)
+    print(BLUE)
+    print(GREEN)
     pi.set_PWM_dutycycle(RED_PIN, RED)
     pi.set_PWM_dutycycle(GREEN_PIN, GREEN)
     pi.set_PWM_dutycycle(BLUE_PIN, BLUE)
@@ -239,6 +242,8 @@ if __name__ == '__main__':
 
     itTrd.start()
     audTrd.start()
+    lightTrd.start()
+    cycTrd.start()
 
     while True:
         if (q.empty()!=True):
