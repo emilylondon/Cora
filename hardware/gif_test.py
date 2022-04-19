@@ -5,6 +5,7 @@ from PIL import Image, ImageTk
 from itertools import count, cycle
 import time 
 import queue 
+import os 
 import pigpio
 from gpiozero import Button 
 import threading
@@ -13,9 +14,9 @@ imgPath = "images/"
 soundPath = "sounds/"
 
 feelArr = ['sleeping.gif','happy.gif', 'sad.gif', 'mad.gif', 'worried.gif']
-feelArrAud = ['intro.mp3', 'happy.mp3', 'sad.mp3', 'mad.mp3', 'worried.mp3']
+feelArrAud = ['intro.wav', 'happy.wav', 'sad.wav', 'mad.wav', 'worried.wav']
 actionArr=['sleeping.gif','dance.gif', 'affirmations.gif', 'wiggle.gif', 'breathe.gif']
-actionArrAud=['outro.mp3','dance.mp3', 'affirmations.mp3', 'wiggle.mp3', 'breathe.mp3']
+actionArrAud=['outro.wav','dance.wav', 'affirmations.wav', 'wiggle.wav', 'breathe.wav']
 
 imageName=imgPath+feelArr[0]
 soundName= soundPath + 'sleeping.mp3'
@@ -163,6 +164,7 @@ def iterate_through(loc):
             else:
                 loc-=1
             q.put(imgPath + feelArr[loc])
+            s.put(soundPath + actionArrAud[loc])
             while leftButton.is_pressed:
                 pass
         if rightButton.is_pressed:
@@ -176,6 +178,7 @@ def iterate_through(loc):
             else:
                 loc+=1
             q.put(imgPath + feelArr[loc])
+            s.put(soundPath + actionArrAud[loc])
             while rightButton.is_pressed:
                 pass
         if selectButton.is_pressed:
@@ -191,7 +194,7 @@ def iterate_through(loc):
                 time.sleep(0.02)       
             
             q.put(imgPath + actionArr[loc])
-            s.put(soundPath + actionArrAud[loc ])
+            s.put(soundPath + actionArrAud[loc])
             if loc==1:
                 flg=1
         time.sleep(0.02)
@@ -201,6 +204,7 @@ def play_audio():
         if (s.empty()!=True):
             audio = s.get()
             print(audio)
+            os.system("omxplayer " + audio)
             a = read(audio)
             r = np.array(a[1], dtype=float)
             #2205 samples per window 
