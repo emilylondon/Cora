@@ -160,7 +160,7 @@ def iterate_through(loc):
             else:
                 loc-=1
             q.put(imgPath + feelArr[loc])
-            s.put(soundPath + actionArrAud[loc])
+            s.put(soundPath + feelArrAud[loc])
             while leftButton.is_pressed:
                 pass
         if rightButton.is_pressed:
@@ -174,7 +174,7 @@ def iterate_through(loc):
             else:
                 loc+=1
             q.put(imgPath + feelArr[loc])
-            s.put(soundPath + actionArrAud[loc])
+            s.put(soundPath + feelArrAud[loc])
             while rightButton.is_pressed:
                 pass
         if selectButton.is_pressed:
