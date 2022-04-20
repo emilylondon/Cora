@@ -119,7 +119,7 @@ class ImageLabel(tk.Label):
  
         try:
             for i in count(1):
-                frames.append(Image(im.copy()))
+                frames.append(ImageTk.PhotoImage(im.copy()))
                 im.seek(i)
         except EOFError:
             pass
