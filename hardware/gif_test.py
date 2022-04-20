@@ -113,7 +113,8 @@ class ImageLabel(tk.Label):
     """
     def load(self, im):
         if isinstance(im, str):
-            im = image_scale(Image.open(im))
+            im = Image.open(im)
+            im = image_scale(im)
    
         frames = []
  
