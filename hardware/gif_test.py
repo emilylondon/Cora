@@ -131,7 +131,7 @@ class ImageLabel(tk.Label):
             self.delay = 100
  
         if len(frames) == 1:
-            self.config(image=image_scale(next(self.frames)))
+            self.config(image=next(self.frames))
             self.place(x=0, y=0)
         else:
             self.next_frame()
