@@ -54,8 +54,6 @@ samplerate=44100
 resolution=20
 spwin=samplerate/resolution
 
-#Initialize the pi for pigpio
-pi = pigpio.pi()
 
 #helper functions 
 def color_map(amp, color):
@@ -248,6 +246,8 @@ def play_lights():
                 time.sleep(0.05)
 #demo :
 if __name__ == '__main__':
+    #Initialize the pi for pigpio
+    pi = pigpio.pi()
     root = tk.Tk()
     root.title('Cora')
     root.attributes('-fullscreen', True)
