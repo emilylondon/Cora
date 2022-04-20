@@ -71,6 +71,15 @@ def window_rms(a, window_size=2):
         energy = np.sqrt(np.mean(a[s:e]**2))
         energy_list.append(energy)
     return energy_list
+
+def image_scale(im):
+    imgWidth, imgHeight = im.size
+    ratio = min(w/imgWidth, h/imgHeight)
+    imgWidth = int(imgWidth*ratio)
+    imgHeight = int(imgHeight*ratio)
+    im = im.resize((imgWidth,imgHeight))
+    return im
+
 def color_cycle():
     global RED
     global BLUE
@@ -102,17 +111,10 @@ class ImageLabel(tk.Label):
     A Label that displays images, and plays them if they are gifs
     :im: A PIL Image instance or a string filename
     """
-    global w 
-    global h 
     def load(self, im):
         if isinstance(im, str):
-            im = Image.open(im)
-            imgWidth, imgHeight = im.size
-            ratio = min(w/imgWidth, h/imgHeight)
-            imgWidth = int(imgWidth*ratio)
-            imgHeight = int(imgHeight*ratio)
-            im = im.resize((imgWidth,imgHeight))  
-            #im = im.zoom(2, 2)    
+            im = image_scale(Image.open(im))
+   
         frames = []
  
         try:
@@ -129,7 +131,7 @@ class ImageLabel(tk.Label):
             self.delay = 100
  
         if len(frames) == 1:
-            self.config(image=next(self.frames))
+            self.config(image=image_scale(next(self.frames)))
             self.place(x=0, y=0)
         else:
             self.next_frame()
