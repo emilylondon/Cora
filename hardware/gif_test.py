@@ -177,6 +177,9 @@ def iterate_through(loc):
                 loc-=1
             q.put(imgPath + feelArr[loc])
             s.put(soundPath + feelArrAud[loc])
+            pi.set_PWM_dutycycle(RED_PIN, RED)
+            pi.set_PWM_dutycycle(GREEN_PIN, GREEN)
+            pi.set_PWM_dutycycle(BLUE_PIN, BLUE)
             while leftButton.is_pressed:
                 pass
         if rightButton.is_pressed:
@@ -191,6 +194,9 @@ def iterate_through(loc):
                 loc+=1
             q.put(imgPath + feelArr[loc])
             s.put(soundPath + feelArrAud[loc])
+            pi.set_PWM_dutycycle(RED_PIN, RED)
+            pi.set_PWM_dutycycle(GREEN_PIN, GREEN)
+            pi.set_PWM_dutycycle(BLUE_PIN, BLUE)
             while rightButton.is_pressed:
                 pass
         if selectButton.is_pressed:
