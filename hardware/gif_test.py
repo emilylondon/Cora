@@ -111,7 +111,7 @@ class ImageLabel(tk.Label):
             ratio = min(w/imgWidth, h/imgHeight)
             imgWidth = int(imgWidth*ratio)
             imgHeight = int(imgHeight*ratio)
-            im = im.resize(imgWidth,imgHeight)  
+            im = im.resize((imgWidth,imgHeight))  
             #im = im.zoom(2, 2)    
         frames = []
  
