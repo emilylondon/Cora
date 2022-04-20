@@ -113,14 +113,13 @@ class ImageLabel(tk.Label):
     """
     def load(self, im):
         if isinstance(im, str):
-            im = Image.open(im)
-            im = image_scale(im)
+            im = image_scale(Image.open(im))
    
         frames = []
  
         try:
             for i in count(1):
-                frames.append(ImageTk.PhotoImage(im.copy()))
+                frames.append(Image(im.copy()))
                 im.seek(i)
         except EOFError:
             pass
