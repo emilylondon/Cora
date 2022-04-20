@@ -27,6 +27,10 @@ q = queue.Queue()
 s = queue.Queue()
 d = queue.Queue()
 
+#Initial screen width and height 
+w=0
+h=0
+
 #GPIO button stuff/hardware 
 leftButton = Button(16)
 rightButton = Button(21)
@@ -98,9 +102,16 @@ class ImageLabel(tk.Label):
     A Label that displays images, and plays them if they are gifs
     :im: A PIL Image instance or a string filename
     """
+    global w 
+    global h 
     def load(self, im):
         if isinstance(im, str):
             im = Image.open(im)
+            imgWidth, imgHeight = im.size
+            ratio = min(w/imgWidth, h/imgHeight)
+            imgWidth = int(imgWidth*ratio)
+            imgHeight = int(imgHeight*ratio)
+            im = im.resize(imgWidth,imgHeight)  
             #im = im.zoom(2, 2)    
         frames = []
  
@@ -173,7 +184,7 @@ def iterate_through(loc):
                 s.put(soundPath + feelArrAud[0])
                 flag = 1
             if (loc==4):
-                loc=1
+                loc=2
             else:
                 loc+=1
             q.put(imgPath + feelArr[loc])
@@ -231,7 +242,9 @@ def play_lights():
 if __name__ == '__main__':
     root = tk.Tk()
     root.title('Cora')
-    #root.attributes('-fullscreen', True)
+    root.attributes('-fullscreen', True)
+    w= root.winfo_screenwidth()
+    h= root.winfo_screenheight()
     itTrd = threading.Thread(target=iterate_through, args=(loc,))
     audTrd = threading.Thread(target=play_audio)
     cycTrd = threading.Thread(target= color_cycle)
