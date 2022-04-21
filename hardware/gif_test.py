@@ -173,7 +173,7 @@ if __name__ == '__main__':
     #Initialize the pi for pigpio
     root = tk.Tk()
     root.title('Cora')
-    #root.attributes('-fullscreen', True)
+    root.attributes('-fullscreen', True)
     w= root.winfo_screenwidth()
     h= root.winfo_screenheight()
     itTrd = threading.Thread(target=iterate_through, args=(loc,))
