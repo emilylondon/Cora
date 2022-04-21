@@ -12,9 +12,9 @@ import threading
 imgPath = "images/"
 soundPath = "sounds/"
 
-feelArr = ['sleeping.gif','happy.gif', 'sad.gif', 'mad.gif', 'worried.gif']
+feelArr = ['ezgif-4-0759024e8e.gif','happy.gif', 'sad.gif', 'mad.gif', 'worried.gif']
 feelArrAud = ['intro.wav', 'happy.wav', 'sad.wav', 'mad.wav', 'worried.wav']
-actionArr=['sleeping.gif','dance.gif', 'affirmations.gif', 'wiggle.gif', 'breathe.gif']
+actionArr=['ezgif-4-0759024e8e.gif','dance.gif', 'affirmations.gif', 'wiggle.gif', 'breathe.gif']
 actionArrAud=['outro.wav','dance.wav', 'affirmations.wav', 'wiggle.wav', 'breathe.wav']
 
 imageName=imgPath+feelArr[0]
