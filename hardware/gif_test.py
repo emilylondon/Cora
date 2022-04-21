@@ -44,7 +44,6 @@ resolution=20
 spwin=samplerate/resolution
 
 #helper functions 
-
 def image_scale(im):
     imgWidth, imgHeight = im.size
     ratio = min(w/imgWidth, h/imgHeight)
@@ -126,7 +125,7 @@ def iterate_through(loc):
                 s.put(soundPath + feelArrAud[0])
                 flag = 1
             if loc==0:
-                loc=1
+                loc=1                          
             elif (loc==4):
                 loc=1
             else:
@@ -137,6 +136,7 @@ def iterate_through(loc):
        
             while rightButton.is_pressed:
                 pass
+
         if selectButton.is_pressed:
             time.sleep(.005)
             if loc==0:
@@ -167,13 +167,13 @@ def play_audio():
             #2205 samples per window 
             psong=window_rms(r, window_size=int(spwin))
             d.put(psong)
-            
+
 #demo :
 if __name__ == '__main__':
     #Initialize the pi for pigpio
     root = tk.Tk()
     root.title('Cora')
-    root.attributes('-fullscreen', True)
+    #root.attributes('-fullscreen', True)
     w= root.winfo_screenwidth()
     h= root.winfo_screenheight()
     itTrd = threading.Thread(target=iterate_through, args=(loc,))
