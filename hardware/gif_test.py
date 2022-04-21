@@ -178,6 +178,7 @@ if __name__ == '__main__':
     h= root.winfo_screenheight()
     itTrd = threading.Thread(target=iterate_through, args=(loc,))
     audTrd = threading.Thread(target=play_audio)
+    
     lbl = ImageLabel(root)
     lbl.pack()
     lbl.load(imageName)
