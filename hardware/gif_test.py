@@ -167,10 +167,10 @@ def play_audio():
             #2205 samples per window 
             psong=window_rms(r, window_size=int(spwin))
             d.put(psong)
+            
 #demo :
 if __name__ == '__main__':
     #Initialize the pi for pigpio
-    pi = pigpio.pi()
     root = tk.Tk()
     root.title('Cora')
     root.attributes('-fullscreen', True)
@@ -178,16 +178,13 @@ if __name__ == '__main__':
     h= root.winfo_screenheight()
     itTrd = threading.Thread(target=iterate_through, args=(loc,))
     audTrd = threading.Thread(target=play_audio)
-    cycTrd = threading.Thread(target= color_cycle)
-    lightTrd = threading.Thread(target= play_lights)
     lbl = ImageLabel(root)
     lbl.pack()
     lbl.load(imageName)
 
     itTrd.start()
     audTrd.start()
-    lightTrd.start()
-    cycTrd.start()
+    
 
     while True:
         if (q.empty()!=True):
