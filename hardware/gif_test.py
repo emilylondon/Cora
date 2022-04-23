@@ -70,6 +70,17 @@ def window_rms(a, window_size=2):
         energy_list.append(energy)
     return energy_list
 
+def color_change(loc):
+    global RED
+    global GREEN
+    global BLUE 
+    RED=color[loc][0]
+    GREEN=color[loc][1]
+    BLUE=color[loc][2]
+    pi.set_PWM_dutycycle(RED_PIN, RED)
+    pi.set_PWM_dutycycle(GREEN_PIN, GREEN)
+    pi.set_PWM_dutycycle(BLUE_PIN, BLUE)
+
 def image_scale(im):
     imgWidth, imgHeight = im.size
     ratio = min(w/imgWidth, h/imgHeight)
@@ -150,18 +161,7 @@ def iterate_through(loc):
     cnt=0
     flag=0
     global flg
-    global RED
-    global GREEN
-    global BLUE
-    RED=color[loc][0]
-    GREEN=color[loc][1]
-    BLUE=color[loc][2]
-    print(RED)
-    print(BLUE)
-    print(GREEN)
-    pi.set_PWM_dutycycle(RED_PIN, RED)
-    pi.set_PWM_dutycycle(GREEN_PIN, GREEN)
-    pi.set_PWM_dutycycle(BLUE_PIN, BLUE)
+    color_change(loc)
     while True:
         if leftButton.is_pressed:
             flg=0
@@ -173,11 +173,9 @@ def iterate_through(loc):
                 loc=4
             else:
                 loc-=1
+            color_change(loc)
             q.put(imgPath + feelArr[loc])
             s.put(soundPath + feelArrAud[loc])
-            pi.set_PWM_dutycycle(RED_PIN, RED)
-            pi.set_PWM_dutycycle(GREEN_PIN, GREEN)
-            pi.set_PWM_dutycycle(BLUE_PIN, BLUE)
             while leftButton.is_pressed:
                 pass
         if rightButton.is_pressed:
@@ -192,9 +190,7 @@ def iterate_through(loc):
                 loc+=1
             q.put(imgPath + feelArr[loc])
             s.put(soundPath + feelArrAud[loc])
-            pi.set_PWM_dutycycle(RED_PIN, RED)
-            pi.set_PWM_dutycycle(GREEN_PIN, GREEN)
-            pi.set_PWM_dutycycle(BLUE_PIN, BLUE)
+            color_change(loc)
             while rightButton.is_pressed:
                 pass
         if selectButton.is_pressed:
