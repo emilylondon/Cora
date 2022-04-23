@@ -54,7 +54,6 @@ samplerate=44100
 resolution=20
 spwin=samplerate/resolution
 
-
 #helper functions 
 def color_map(amp, color):
     mapped = color*(amp/9000)
@@ -80,14 +79,6 @@ def color_change(loc):
     pi.set_PWM_dutycycle(RED_PIN, RED)
     pi.set_PWM_dutycycle(GREEN_PIN, GREEN)
     pi.set_PWM_dutycycle(BLUE_PIN, BLUE)
-
-def image_scale(im):
-    imgWidth, imgHeight = im.size
-    ratio = min(w/imgWidth, h/imgHeight)
-    imgWidth = int(imgWidth*ratio)
-    imgHeight = int(imgHeight*ratio)
-    im = im.resize((imgWidth,imgHeight))
-    return im
 
 def color_cycle():
     global RED
@@ -122,7 +113,7 @@ class ImageLabel(tk.Label):
     """
     def load(self, im):
         if isinstance(im, str):
-            im = image_scale(Image.open(im))
+            im = Image.open(im)
    
         frames = []
  
@@ -163,52 +154,74 @@ def iterate_through(loc):
     global flg
     color_change(loc)
     while True:
+
         if leftButton.is_pressed:
-            flg=0
+
             time.sleep(.005)
-            if flag == 0: 
+            flg=0
+            if flag == 0: # reset to sleep state
                 s.put(soundPath + feelArrAud[0])
-                flag = 1
-            if (loc==1):
-                loc=4
+                flag = 1 
+            if loc==0: #init after sleep state
+                loc=1
+            elif (loc==1): #acount for roundoff
+                loc=4 
             else:
-                loc-=1
-            color_change(loc)
+                loc-=1 
+
+            #load image and sound files
             q.put(imgPath + feelArr[loc])
             s.put(soundPath + feelArrAud[loc])
-            while leftButton.is_pressed:
+            color_change(loc)
+
+            while leftButton.is_pressed:# debouncing
                 pass
+
         if rightButton.is_pressed:
-            flg=0
+
             time.sleep(.005)
-            if flag == 0: 
+            flg=0
+            if flag == 0: # reset to sleep state
                 s.put(soundPath + feelArrAud[0])
                 flag = 1
-            if (loc==4):
-                loc=2
+            if loc==0: #init after sleep state
+                loc=1                          
+            elif (loc==4): #acount for roundoff
+                loc=1
             else:
                 loc+=1
+
+            #load image and sound files for state
             q.put(imgPath + feelArr[loc])
             s.put(soundPath + feelArrAud[loc])
             color_change(loc)
-            while rightButton.is_pressed:
+       
+            while rightButton.is_pressed: # debouncing
                 pass
+
         if selectButton.is_pressed:
             time.sleep(.005)
+
+            if loc==0:# reset to sleep state
+                loc=1
+
             while selectButton.is_pressed:
                 print(cnt)
-                if cnt==100:
+                if cnt==100:#reset to sleep
                     loc=0
                     cnt=0
                     flag=0
                     flg=0
+
                 cnt+=1 
                 time.sleep(0.02)       
             
+            #load sound and audio for action
+            if (loc==1):
+                flg = 1
             q.put(imgPath + actionArr[loc])
             s.put(soundPath + actionArrAud[loc])
-            if loc==1:
-                flg=1
+            
         time.sleep(0.02)
 
 def play_audio():
