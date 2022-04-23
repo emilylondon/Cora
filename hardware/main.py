@@ -33,8 +33,8 @@ h=0
 
 #GPIO button stuff/hardware 
 leftButton = Button(16)
-rightButton = Button(21)
-selectButton = Button(20)
+rightButton = Button(20)
+selectButton = Button(21)
 
 #GPIO LEDs 
 RED_PIN   = 26
@@ -47,7 +47,7 @@ GREEN = 0
 BLUE = 0 
 
 #loc color array 
-color=[[242,141,185], [252,227,3], [0,0,255], [255,0,0], [0,255,0]]
+color=[[242,141,185], [252,200,3], [0,0,255], [255,0,0], [0,255,0]]
 
 #Audio processing info 
 samplerate=44100
@@ -219,21 +219,27 @@ def play_lights():
         if flg!=0:
             for r in range(255):
                 RED = r
+                pi.set_PWM_dutycycle(RED_PIN, RED)
                 time.sleep(0.05)
             for b in range(255, 0, -1):
                 BLUE = b
+                pi.set_PWM_dutycycle(BLUE_PIN, BLUE)
                 time.sleep(0.05)
             for g in range(255):
                 GREEN = g
+                pi.set_PWM_dutycycle(GREEN_PIN, GREEN)
                 time.sleep(0.05)
             for r in range(255, 0, -1):
                 RED = r 
+                pi.set_PWM_dutycycle(RED_PIN, RED)
                 time.sleep(0.05)
             for b in range(255):
                 BLUE = b
+                pi.set_PWM_dutycycle(BLUE_PIN, BLUE)
                 time.sleep(0.05)
             for g in range(255, 0, -1):
                 GREEN = g
+                pi.set_PWM_dutycycle(GREEN_PIN, GREEN)
                 time.sleep(0.05)
                 
         if (d.empty()!=True):
