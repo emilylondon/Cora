@@ -80,32 +80,6 @@ def color_change(loc):
     pi.set_PWM_dutycycle(GREEN_PIN, GREEN)
     pi.set_PWM_dutycycle(BLUE_PIN, BLUE)
 
-def color_cycle():
-    global RED
-    global BLUE
-    global GREEN
-    global flg
-
-    while flg!=0:
-        for r in range(255):
-            RED = r
-            time.sleep(0.05)
-        for b in range(255, 0, -1):
-            BLUE = b
-            time.sleep(0.05)
-        for g in range(255):
-            GREEN = g
-            time.sleep(0.05)
-        for r in range(255, 0, -1):
-            RED = r 
-            time.sleep(0.05)
-        for b in range(255):
-            BLUE = b
-            time.sleep(0.05)
-        for g in range(255, 0, -1):
-            GREEN = g
-            time.sleep(0.05)
-
 class ImageLabel(tk.Label):
     """
     A Label that displays images, and plays them if they are gifs
@@ -237,13 +211,14 @@ def play_audio():
             d.put(psong)
 
 def play_lights():
+    global RED
+    global BLUE 
+    global GREEN
+    global flg 
     while True:
         if (d.empty()!=True):
             psong=d.get()
             time.sleep(1)
-            global RED
-            global BLUE 
-            global GREEN
         
             for t in range(len(psong)):
                 r = color_map(psong[t], RED)
@@ -252,6 +227,25 @@ def play_lights():
                 pi.set_PWM_dutycycle(RED_PIN, r)
                 pi.set_PWM_dutycycle(GREEN_PIN, g)
                 pi.set_PWM_dutycycle(BLUE_PIN, b)
+                time.sleep(0.05)
+        while flg!=0:
+            for r in range(255):
+                RED = r
+                time.sleep(0.05)
+            for b in range(255, 0, -1):
+                BLUE = b
+                time.sleep(0.05)
+            for g in range(255):
+                GREEN = g
+                time.sleep(0.05)
+            for r in range(255, 0, -1):
+                RED = r 
+                time.sleep(0.05)
+            for b in range(255):
+                BLUE = b
+                time.sleep(0.05)
+            for g in range(255, 0, -1):
+                GREEN = g
                 time.sleep(0.05)
 #demo :
 if __name__ == '__main__':
@@ -264,7 +258,6 @@ if __name__ == '__main__':
     h= root.winfo_screenheight()
     itTrd = threading.Thread(target=iterate_through, args=(loc,))
     audTrd = threading.Thread(target=play_audio)
-    cycTrd = threading.Thread(target= color_cycle)
     lightTrd = threading.Thread(target= play_lights)
     lbl = ImageLabel(root)
     lbl.pack()
@@ -273,7 +266,6 @@ if __name__ == '__main__':
     itTrd.start()
     audTrd.start()
     lightTrd.start()
-    cycTrd.start()
 
     while True:
         if (q.empty()!=True):
