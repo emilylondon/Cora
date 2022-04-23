@@ -228,7 +228,7 @@ def play_lights():
                 pi.set_PWM_dutycycle(GREEN_PIN, g)
                 pi.set_PWM_dutycycle(BLUE_PIN, b)
                 time.sleep(0.05)
-        while flg!=0:
+        if flg!=0:
             for r in range(255):
                 RED = r
                 time.sleep(0.05)
