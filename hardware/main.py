@@ -1,80 +1,193 @@
-import tkinter 
-import sys 
-from gpiozero import Button 
+from scipy.io.wavfile import read
+
+import tkinter as tk
 from PIL import Image, ImageTk
+from itertools import count, cycle
 import time 
+import queue 
+import os 
+from gpiozero import Button 
+import threading
 
+imgPath = "images/"
+soundPath = "sounds/"
 
-feelArr = ['happy.png', 'sad.jpg', 'angry.png', 'excited.png']
+feelArr = ['sleeping.gif','happy.gif', 'sad.gif', 'mad.gif', 'worried.gif']
+feelArrAud = ['intro.wav', 'happy.wav', 'sad.wav', 'mad.wav', 'worried.wav']
+actionArr=['sleeping.gif','dance.gif', 'affirmations.gif', 'wiggle.gif', 'breathe.gif']
+actionArrAud=['outro.wav','dance.wav', 'affirmations.wav', 'wiggle.wav', 'breathe.wav']
+
+imageName=imgPath+feelArr[0]
+soundName= soundPath + 'sleeping.mp3'
 loc = 0
+cnt =0
+flg = 0
+q = queue.Queue() # iamge
+s = queue.Queue() # sound
+d = queue.Queue() # 
 
-#Button declarations 
-leftButton = Button(20)
-rightButton = Button(16)
-selectButton = Button(21)
+#Initial screen width and height 
+w=0
+h=0
+
+#GPIO button stuff/hardware 
+leftButton = Button(16)
+rightButton = Button(21)
+selectButton = Button(20)
 
 
-#prolonged button press 
+#loc color array 
 
-#first instanse of image show, returns label to destroy latter
-def initialShowPIL(imageName):
-    display = ImageTk.PhotoImage(imageName)
-    
-    label1 = tkinter.Label(image=display)
-    label1.image = display
+#Audio processing info 
+samplerate=44100
+resolution=20
+spwin=samplerate/resolution
 
-    label1.place(x=0,y=0)
-    return label1
+class ImageLabel(tk.Label):
+    """
+    A Label that displays images, and plays them if they are gifs
+    :im: A PIL Image instance or a string filename
+    """
+    def load(self, im):
+        if isinstance(im, str):
+            im = Image.open(im)
+   
+        frames = []
+ 
+        try:
+            for i in count(1):
+                frames.append(ImageTk.PhotoImage(im.copy()))
+                im.seek(i)
+        except EOFError:
+            pass
+        self.frames = cycle(frames)
+ 
+        try:
+            self.delay = im.info['duration']
+        except:
+            self.delay = 100
+ 
+        if len(frames) == 1:
+            self.config(image=next(self.frames))
+            self.place(x=0, y=0)
+        else:
+            self.next_frame()
+ 
+    def unload(self):
+        self.config(image=None)
+        self.frames = None
+ 
+    def next_frame(self):
+        if self.frames:
+            self.config(image=next(self.frames))
+            self.place(x=0, y=0)
+            self.after(self.delay, self.next_frame)
+ 
+ #threads rip 
+def iterate_through(loc):
+    loc=0
+    cnt=0
+    flag=0
 
-#subsequent image shows, also returns label to destroy 
-def showPIL(oldImage, imageName):
+    while True:
 
-    #set attributes 
-    #window.attributes('-fullscreen', True)
-    oldImage.destroy()
-    window.title("Cora")
+        if leftButton.is_pressed:
 
-    #display image
-    display = ImageTk.PhotoImage(imageName)
-    
-    label1 = tkinter.Label(image=display)
-    label1.image = display
-
-    label1.place(x=0,y=0)
-    return label1
-
-if __name__ == '__main__':
-    window = tkinter.Tk()
-    #set attributes 
-    #window.attributes('-fullscreen', True)
-    window.title("Cora")
-    height = window.winfo_screenheight()
-
-    mainImage= Image.open("coraMain.png")
-    oldImage=initialShowPIL(mainImage)
-
-    window.update()
-
-    while True: 
-        frame = tkinter.Frame(window) 
-        if count==5: #leftButton.is_pressed:
-            count=0
-            if (loc == 0):
-                loc=3
-            else: 
-                loc-=1
-            print("left!")
-            mainImage = Image.open(feelArr[loc])
-            oldImage=showPIL(oldImage, mainImage)
-        if selectButton.is_pressed: 
-            print("select!")
-        if rightButton.is_pressed:
-            if (loc == 3):
-                loc = 0
+            time.sleep(.005)
+            if flag == 0: # reset to sleep state
+                s.put(soundPath + feelArrAud[0])
+                flag = 1 
+            if loc==0: #init after sleep state
+                loc=1
+            elif (loc==1): #acount for roundoff
+                loc=4 
             else:
-               loc+=1
-            print("right!")
-            mainImage = Image.open(feelArr[loc])
-            oldImage=showPIL(mainImage)
-        time.sleep(1)
-        window.update()
+                loc-=1 
+
+            #load image and sound files
+            q.put(imgPath + feelArr[loc])
+            s.put(soundPath + feelArrAud[loc])
+
+            while leftButton.is_pressed:# debouncing
+                pass
+
+        if rightButton.is_pressed:
+
+            time.sleep(.005)
+            if flag == 0: # reset to sleep state
+                s.put(soundPath + feelArrAud[0])
+                flag = 1
+            if loc==0: #init after sleep state
+                loc=1                          
+            elif (loc==4): #acount for roundoff
+                loc=1
+            else:
+                loc+=1
+
+            #load image and sound files for state
+            q.put(imgPath + feelArr[loc])
+            s.put(soundPath + feelArrAud[loc])
+       
+            while rightButton.is_pressed: # debouncing
+                pass
+
+        if selectButton.is_pressed:
+            time.sleep(.005)
+
+            if loc==0:# reset to sleep state
+                loc=1
+
+            while selectButton.is_pressed:
+                print(cnt)
+                if cnt==100:#reset to sleep
+                    loc=0
+                    cnt=0
+                    flag=0
+
+                cnt+=1 
+                time.sleep(0.02)       
+            
+            #load sound and audio for action
+            q.put(imgPath + actionArr[loc])
+            s.put(soundPath + actionArrAud[loc])
+            
+        time.sleep(0.02)
+
+def play_audio():
+    while True: 
+        if (s.empty()!=True):
+            audio = s.get()
+            print(audio)
+            os.system("omxplayer " + audio)
+            a = read(audio)
+            r = np.array(a[1], dtype=float)
+            #2205 samples per window 
+            psong=window_rms(r, window_size=int(spwin))
+            d.put(psong)
+
+#demo :
+if __name__ == '__main__':
+    #Initialize the pi for pigpio
+    root = tk.Tk()
+    root.title('Cora')
+    root.attributes('-fullscreen', True)#fullscreen OK w/ image sizing edits
+    
+    w= root.winfo_screenwidth()
+    h= root.winfo_screenheight()
+    itTrd = threading.Thread(target=iterate_through, args=(loc,))
+    audTrd = threading.Thread(target=play_audio)
+    
+    lbl = ImageLabel(root)
+    lbl.pack()
+    lbl.load(imageName)
+
+    itTrd.start()
+    audTrd.start()
+    
+    while True:
+        if (q.empty()!=True):
+            imageName=q.get()
+            lbl.unload()
+            lbl = ImageLabel(root)
+            lbl.load(imageName)
+        root.update()
