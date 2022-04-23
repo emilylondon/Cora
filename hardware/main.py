@@ -76,9 +76,9 @@ def color_change(loc):
     RED=color[loc][0]
     GREEN=color[loc][1]
     BLUE=color[loc][2]
-    pi.set_PWM_dutycycle(RED_PIN, RED)
-    pi.set_PWM_dutycycle(GREEN_PIN, GREEN)
-    pi.set_PWM_dutycycle(BLUE_PIN, BLUE)
+    #pi.set_PWM_dutycycle(RED_PIN, RED)
+    #pi.set_PWM_dutycycle(GREEN_PIN, GREEN)
+    #pi.set_PWM_dutycycle(BLUE_PIN, BLUE)
 
 class ImageLabel(tk.Label):
     """
@@ -191,7 +191,7 @@ def iterate_through(loc):
                 time.sleep(0.02)       
             
             #load sound and audio for action
-            if (loc==1):
+            if (loc==1): #color cycle mode enabled 
                 flg = 1
             q.put(imgPath + actionArr[loc])
             s.put(soundPath + actionArrAud[loc])
@@ -216,18 +216,6 @@ def play_lights():
     global GREEN
     global flg 
     while True:
-        if (d.empty()!=True):
-            psong=d.get()
-            time.sleep(1)
-        
-            for t in range(len(psong)):
-                r = color_map(psong[t], RED)
-                g = color_map(psong[t], GREEN)
-                b = color_map(psong[t], BLUE)
-                pi.set_PWM_dutycycle(RED_PIN, r)
-                pi.set_PWM_dutycycle(GREEN_PIN, g)
-                pi.set_PWM_dutycycle(BLUE_PIN, b)
-                time.sleep(0.05)
         if flg!=0:
             for r in range(255):
                 RED = r
@@ -247,6 +235,20 @@ def play_lights():
             for g in range(255, 0, -1):
                 GREEN = g
                 time.sleep(0.05)
+                
+        if (d.empty()!=True):
+            psong=d.get()
+            time.sleep(1)
+        
+            for t in range(len(psong)):
+                r = color_map(psong[t], RED)
+                g = color_map(psong[t], GREEN)
+                b = color_map(psong[t], BLUE)
+                pi.set_PWM_dutycycle(RED_PIN, r)
+                pi.set_PWM_dutycycle(GREEN_PIN, g)
+                pi.set_PWM_dutycycle(BLUE_PIN, b)
+                time.sleep(0.05)
+        
 #demo :
 if __name__ == '__main__':
     #Initialize the pi for pigpio
