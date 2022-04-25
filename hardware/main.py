@@ -22,19 +22,19 @@ imageName=imgPath+feelArr[0]
 soundName= soundPath + 'sleeping.mp3'
 loc = 0
 cnt =0
-flg = 0
+#flg = 0
 q = queue.Queue()
 s = queue.Queue()
-d = queue.Queue()
+#d = queue.Queue()
 
 #Initial screen width and height 
 w=0
 h=0
 
 #GPIO button stuff/hardware 
-leftButton = Button(16)
-rightButton = Button(20)
-selectButton = Button(21)
+selectButton = Button(16)
+leftButton = Button(20)
+rightButton = Button(21)
 
 #GPIO LEDs 
 RED_PIN   = 26
@@ -55,7 +55,7 @@ resolution=20
 spwin=samplerate/resolution
 
 #helper functions 
-def color_map(amp, color):
+"""def color_map(amp, color):
     mapped = color*(amp/9000)
     if mapped > 255:
         mapped = 255
@@ -79,7 +79,7 @@ def color_change(loc):
     #pi.set_PWM_dutycycle(RED_PIN, RED)
     #pi.set_PWM_dutycycle(GREEN_PIN, GREEN)
     #pi.set_PWM_dutycycle(BLUE_PIN, BLUE)
-
+"""
 class ImageLabel(tk.Label):
     """
     A Label that displays images, and plays them if they are gifs
@@ -126,7 +126,7 @@ def iterate_through(loc):
     cnt=0
     flag=0
     global flg
-    color_change(loc)
+    #color_change(loc)
     while True:
 
         if leftButton.is_pressed:
@@ -146,7 +146,7 @@ def iterate_through(loc):
             #load image and sound files
             q.put(imgPath + feelArr[loc])
             s.put(soundPath + feelArrAud[loc])
-            color_change(loc)
+            #color_change(loc)
 
             while leftButton.is_pressed:# debouncing
                 pass
@@ -168,7 +168,7 @@ def iterate_through(loc):
             #load image and sound files for state
             q.put(imgPath + feelArr[loc])
             s.put(soundPath + feelArrAud[loc])
-            color_change(loc)
+            #color_change(loc)
        
             while rightButton.is_pressed: # debouncing
                 pass
@@ -204,12 +204,12 @@ def play_audio():
             audio = s.get()
             print(audio)
             os.system("omxplayer " + audio)
-            a = read(audio)
-            r = np.array(a[1], dtype=float)
+            #a = read(audio)
+            #r = np.array(a[1], dtype=float)
             #2205 samples per window 
-            psong=window_rms(r, window_size=int(spwin))
-            d.put(psong)
-
+            #psong=window_rms(r, window_size=int(spwin))
+            #d.put(psong)
+"""
 def play_lights():
     global RED
     global BLUE 
@@ -245,7 +245,8 @@ def play_lights():
                 pi.set_PWM_dutycycle(GREEN_PIN, g)
                 pi.set_PWM_dutycycle(BLUE_PIN, b)
                 time.sleep(0.05)
-        
+"""
+
 #demo :
 if __name__ == '__main__':
     #Initialize the pi for pigpio
@@ -257,14 +258,14 @@ if __name__ == '__main__':
     h= root.winfo_screenheight()
     itTrd = threading.Thread(target=iterate_through, args=(loc,))
     audTrd = threading.Thread(target=play_audio)
-    lightTrd = threading.Thread(target= play_lights)
+    #lightTrd = threading.Thread(target= play_lights)
     lbl = ImageLabel(root)
     lbl.pack()
     lbl.load(imageName)
 
     itTrd.start()
     audTrd.start()
-    lightTrd.start()
+    #lightTrd.start()
 
     while True:
         if (q.empty()!=True):
