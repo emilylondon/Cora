@@ -68,7 +68,7 @@ def window_rms(a, window_size=2):
         energy = np.sqrt(np.mean(a[s:e]**2))
         energy_list.append(energy)
     return energy_list
-
+"""
 def color_change(loc):
     global RED
     global GREEN
@@ -76,10 +76,10 @@ def color_change(loc):
     RED=color[loc][0]
     GREEN=color[loc][1]
     BLUE=color[loc][2]
-    #pi.set_PWM_dutycycle(RED_PIN, RED)
-    #pi.set_PWM_dutycycle(GREEN_PIN, GREEN)
-    #pi.set_PWM_dutycycle(BLUE_PIN, BLUE)
-"""
+    pi.set_PWM_dutycycle(RED_PIN, RED)
+    pi.set_PWM_dutycycle(GREEN_PIN, GREEN)
+    pi.set_PWM_dutycycle(BLUE_PIN, BLUE)
+
 class ImageLabel(tk.Label):
     """
     A Label that displays images, and plays them if they are gifs
@@ -126,7 +126,7 @@ def iterate_through(loc):
     cnt=0
     flag=0
     global flg
-    #color_change(loc)
+    color_change(loc)
     while True:
 
         if leftButton.is_pressed:
@@ -146,7 +146,7 @@ def iterate_through(loc):
             #load image and sound files
             q.put(imgPath + feelArr[loc])
             s.put(soundPath + feelArrAud[loc])
-            #color_change(loc)
+            color_change(loc)
 
             while leftButton.is_pressed:# debouncing
                 pass
@@ -168,7 +168,7 @@ def iterate_through(loc):
             #load image and sound files for state
             q.put(imgPath + feelArr[loc])
             s.put(soundPath + feelArrAud[loc])
-            #color_change(loc)
+            color_change(loc)
        
             while rightButton.is_pressed: # debouncing
                 pass
@@ -209,7 +209,7 @@ def play_audio():
             #2205 samples per window 
             #psong=window_rms(r, window_size=int(spwin))
             #d.put(psong)
-"""
+
 def play_lights():
     global RED
     global BLUE 
@@ -233,6 +233,7 @@ def play_lights():
             pi.set_PWM_dutycycle(GREEN_PIN, 255)
             pi.set_PWM_dutycycle(BLUE_PIN, 0)
             time.sleep(1)
+        """
         elif (d.empty()!=True):
             psong=d.get()
             time.sleep(1)
@@ -245,7 +246,7 @@ def play_lights():
                 pi.set_PWM_dutycycle(GREEN_PIN, g)
                 pi.set_PWM_dutycycle(BLUE_PIN, b)
                 time.sleep(0.05)
-"""
+        """
 
 #demo :
 if __name__ == '__main__':
@@ -258,14 +259,14 @@ if __name__ == '__main__':
     h= root.winfo_screenheight()
     itTrd = threading.Thread(target=iterate_through, args=(loc,))
     audTrd = threading.Thread(target=play_audio)
-    #lightTrd = threading.Thread(target= play_lights)
+    lightTrd = threading.Thread(target= play_lights)
     lbl = ImageLabel(root)
     lbl.pack()
     lbl.load(imageName)
 
     itTrd.start()
     audTrd.start()
-    #lightTrd.start()
+    lightTrd.start()
 
     while True:
         if (q.empty()!=True):
