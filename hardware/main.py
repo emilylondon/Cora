@@ -146,10 +146,11 @@ def iterate_through(loc):
             #load image and sound files
             q.put(imgPath + feelArr[loc])
             s.put(soundPath + feelArrAud[loc])
+            time.sleep(1)
             color_change(loc)
 
-           # while leftButton.is_pressed:# debouncing
-            #    pass
+            while leftButton.is_pressed:# debouncing
+                pass
 
         if rightButton.is_pressed:
 
@@ -168,10 +169,11 @@ def iterate_through(loc):
             #load image and sound files for state
             q.put(imgPath + feelArr[loc])
             s.put(soundPath + feelArrAud[loc])
+            time.sleep(1)
             color_change(loc)
        
-            #while rightButton.is_pressed: # debouncing
-             #   pass
+            while rightButton.is_pressed: # debouncing
+                pass
 
         if selectButton.is_pressed:
             time.sleep(.005)
@@ -203,6 +205,7 @@ def play_audio():
         if (s.empty()!=True):
             audio = s.get()
             print(audio)
+            time.sleep(1)
             os.system("omxplayer " + audio)
             #a = read(audio)
             #r = np.array(a[1], dtype=float)
