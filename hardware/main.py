@@ -148,8 +148,8 @@ def iterate_through(loc):
             s.put(soundPath + feelArrAud[loc])
             color_change(loc)
 
-            while leftButton.is_pressed:# debouncing
-                pass
+           # while leftButton.is_pressed:# debouncing
+            #    pass
 
         if rightButton.is_pressed:
 
@@ -170,8 +170,8 @@ def iterate_through(loc):
             s.put(soundPath + feelArrAud[loc])
             color_change(loc)
        
-            while rightButton.is_pressed: # debouncing
-                pass
+            #while rightButton.is_pressed: # debouncing
+             #   pass
 
         if selectButton.is_pressed:
             time.sleep(.005)
