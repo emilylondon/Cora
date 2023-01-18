@@ -6,7 +6,6 @@ from itertools import count, cycle
 import time 
 import queue 
 import os 
-import pigpio
 from gpiozero import Button 
 import threading
 
@@ -36,49 +35,10 @@ selectButton = Button(16)
 leftButton = Button(20)
 rightButton = Button(21)
 
-#GPIO LEDs 
-RED_PIN   = 26
-GREEN_PIN = 19
-BLUE_PIN  = 13
-
-#Initial color values 
-RED=255
-GREEN = 0
-BLUE = 0 
-
-#loc color array 
-color=[[242,141,185], [252,200,3], [0,0,255], [255,0,0], [0,255,0]]
-
 #Audio processing info 
 samplerate=44100
 resolution=20
 spwin=samplerate/resolution
-
-#helper functions 
-"""def color_map(amp, color):
-    mapped = color*(amp/9000)
-    if mapped > 255:
-        mapped = 255
-    return mapped 
-
-def window_rms(a, window_size=2):
-    energy_list = []
-    for s in range(0, a.shape[0], window_size):
-        e = s + window_size
-        energy = np.sqrt(np.mean(a[s:e]**2))
-        energy_list.append(energy)
-    return energy_list
-"""
-def color_change(loc):
-    global RED
-    global GREEN
-    global BLUE 
-    RED=color[loc][0]
-    GREEN=color[loc][1]
-    BLUE=color[loc][2]
-    pi.set_PWM_dutycycle(RED_PIN, RED)
-    pi.set_PWM_dutycycle(GREEN_PIN, GREEN)
-    pi.set_PWM_dutycycle(BLUE_PIN, BLUE)
 
 class ImageLabel(tk.Label):
     """
@@ -126,7 +86,6 @@ def iterate_through(loc):
     cnt=0
     flag=0
     global flg
-    color_change(loc)
     while True:
 
         if leftButton.is_pressed:
@@ -146,7 +105,6 @@ def iterate_through(loc):
             #load image and sound files
             q.put(imgPath + feelArr[loc])
             s.put(soundPath + feelArrAud[loc])
-            color_change(loc)
 
             while leftButton.is_pressed:# debouncing
                 pass
@@ -168,7 +126,6 @@ def iterate_through(loc):
             #load image and sound files for state
             q.put(imgPath + feelArr[loc])
             s.put(soundPath + feelArrAud[loc])
-            color_change(loc)
        
             while rightButton.is_pressed: # debouncing
                 pass
@@ -205,54 +162,9 @@ def play_audio():
             print(audio)
             #time.sleep(2)
             os.system("omxplayer " + audio)
-            #a = read(audio)
-            #r = np.array(a[1], dtype=float)
-            #2205 samples per window 
-            #psong=window_rms(r, window_size=int(spwin))
-            #d.put(psong)
-
-def play_lights():
-    global RED
-    global BLUE 
-    global GREEN
-    global flg 
-    while True:
-        if flg!=0:
-            pi.set_PWM_dutycycle(RED_PIN, 255)
-            pi.set_PWM_dutycycle(GREEN_PIN, 150)
-            pi.set_PWM_dutycycle(BLUE_PIN, 0)
-            time.sleep(1)
-            pi.set_PWM_dutycycle(RED_PIN, 0)
-            pi.set_PWM_dutycycle(GREEN_PIN, 0)
-            pi.set_PWM_dutycycle(BLUE_PIN, 255)
-            time.sleep(1)
-            pi.set_PWM_dutycycle(RED_PIN, 255)
-            pi.set_PWM_dutycycle(GREEN_PIN, 0)
-            pi.set_PWM_dutycycle(BLUE_PIN, 0)
-            time.sleep(1)
-            pi.set_PWM_dutycycle(RED_PIN, 0)
-            pi.set_PWM_dutycycle(GREEN_PIN, 255)
-            pi.set_PWM_dutycycle(BLUE_PIN, 0)
-            time.sleep(1)
-        """
-        elif (d.empty()!=True):
-            psong=d.get()
-            time.sleep(1)
-        
-            for t in range(len(psong)):
-                r = color_map(psong[t], RED)
-                g = color_map(psong[t], GREEN)
-                b = color_map(psong[t], BLUE)
-                pi.set_PWM_dutycycle(RED_PIN, r)
-                pi.set_PWM_dutycycle(GREEN_PIN, g)
-                pi.set_PWM_dutycycle(BLUE_PIN, b)
-                time.sleep(0.05)
-        """
 
 #demo :
 if __name__ == '__main__':
-    #Initialize the pi for pigpio
-    pi = pigpio.pi()
     root = tk.Tk()
     root.title('Cora')
     root.attributes('-fullscreen', True)
@@ -260,14 +172,12 @@ if __name__ == '__main__':
     h= root.winfo_screenheight()
     itTrd = threading.Thread(target=iterate_through, args=(loc,))
     audTrd = threading.Thread(target=play_audio)
-    lightTrd = threading.Thread(target= play_lights)
     lbl = ImageLabel(root)
     lbl.pack()
     lbl.load(imageName)
 
     itTrd.start()
     audTrd.start()
-    lightTrd.start()
 
     while True:
         if (q.empty()!=True):
